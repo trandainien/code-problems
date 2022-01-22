@@ -1,0 +1,55 @@
+// BookStore.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <string.h>
+
+using namespace std;
+fstream input;
+struct book {
+    int id;
+    char* title;
+    int price;
+};
+
+void inputBooks(book * &pbook,int n) {
+    char sTemp[200];
+    for (int i = 0; i < n; i++) {
+        input >> pbook[i].id;
+        input.ignore();
+        input.getline(sTemp, 200);
+        pbook[i].title = new char[strlen(sTemp)+1];
+        strcpy_s(pbook[i].title, strlen(sTemp) +1 , sTemp);
+        input >> pbook[i].price;
+    }
+}
+
+void outputBooks(book* pbook, int n) {
+    for (int i = 0; i < n; i++) {
+        cout << pbook[i].id << ' ';
+        cout << pbook[i].title << ' ';
+        delete pbook[i].title;
+        cout << pbook[i].price << endl;
+    }
+}
+    
+int main()
+{
+    int n;
+    cout << "Hello World!\n";
+    input.open("BookStore.TXT", ios::in);
+    input >> n;
+
+    if (n == 0) cout << "Input is empty";
+
+    book* pbook;
+    pbook = new book[n];
+
+    inputBooks(pbook,n);
+    outputBooks(pbook, n);
+    delete[]pbook;
+}
+
+
